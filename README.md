@@ -9,55 +9,33 @@ Goal: Train baseline models (Linear Regression if predicting a continuous number
 Data Source: https://www.kaggle.com/code/nxbfuentes/notebookf36f949a2a/edit
 
 
---- Missing Values ---
-id                     0
-warehouse_block        0
-mode_of_shipment       0
-customer_care_calls    0
-customer_rating        0
-cost_of_the_product    0
-prior_purchases        0
-product_importance     0
-gender                 0
-discount_offered       0
-weight_in_gms          0
-late_delivery          0
-dtype: int64
+🚀 Phase 1: Data Exploration and Baseline Model
+Objective: Establish a robust validation framework, uncover initial data insights without data leakage, and train a baseline linear model to predict e-commerce shipping delays.
 
+📊 Dataset & Validation Setup
+Domain: Supply Chain & Logistics (E-Commerce Shipping)
 
---- Target Distribution (Late vs On Time) ---
-late_delivery
-1    0.59903
-0    0.40097
-Name: proportion, dtype: float64
+Target Variable: late_delivery (Engineered from reached_on_time_y_n where 1 = Late, 0 = On Time)
 
+Validation Framework: Implemented a strict 60% / 20% / 20% (Train / Validation / Test) split using Scikit-Learn to ensure the model is evaluated on entirely unseen data.
 
---- Late Delivery Rate by Warehouse Block ---
-warehouse_block
-D    0.606572
-C    0.604244
-B    0.603116
-F    0.600915
-A    0.578616
-Name: late_delivery, dtype: float64
+🔍 Exploratory Data Analysis (EDA) Highlights
+Data Quality: The dataset is exceptionally clean with 0 missing values across all columns.
 
+Target Distribution: The data is slightly imbalanced, with a baseline late delivery rate of ~59.9%.
 
---- Average Discount Offered (On Time vs Late) ---
-late_delivery
-0     5.487906
-1    18.850746
-Name: discount_offered, dtype: float64
+Key Signal (discount_offered): Identified a massive behavioral signal regarding discounts. Packages arriving on time had an average discount of ~5.49, whereas delayed packages featured an average discount of ~18.85.
 
-ackages that arrive on time: ~5.49 discount.
+Categorical Trends: Warehouse Block 'D' exhibited the highest rate of late deliveries (~60.6%).
 
-Packages that arrive late: ~18.85 discount.
-
-This is a massive signal. It tells us that discount_offered is going to be a very strong predictor for our model. (From a business perspective, this might mean the company is slapping high discounts on packages they already know are going to be delayed, or perhaps highly discounted items are shipped via a slower, lower-priority tier!).
+🤖 Baseline Model Performance
+To establish a performance floor, a baseline LogisticRegression model was trained using the liblinear solver. Scikit-Learn's DictVectorizer was utilized to handle the automatic One-Hot Encoding of all categorical features (e.g., mode_of_shipment, warehouse_block).
 
 Baseline Validation Accuracy: 0.6477
-Baseline Validation ROC AUC:  0.7218
 
-An ROC AUC of 0.7218 means your Logistic Regression model is doing a decent job of distinguishing between on-time and late packages, but we can definitely do better.
+Baseline Validation ROC AUC: 0.7218
+
+Note: These metrics serve as our foundational benchmark. Advanced tree-based ensembles introduced in Phase 2 must reliably exceed an ROC AUC of 0.7218 to justify their added complexity.
 
 Phase 2: Complex Modeling (Matches Module 6)
 
