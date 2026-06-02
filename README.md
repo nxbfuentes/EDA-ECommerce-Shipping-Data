@@ -43,6 +43,41 @@ Action: Upgrade your model to use tree-based ensembles (Random Forest, XGBoost).
 
 Goal: Focus on feature engineering and hyperparameter tuning to beat your baseline model's performance. Export the final, best-performing model using pickle or joblib.
 
+Here is a beautifully formatted recap for Phase 2, styled to match your Phase 1 update. It perfectly captures your progression into complex modeling, your metric improvements, and the final engineering steps taken to prepare the model for production.
+
+You can copy and paste this directly into your GitHub Pull Request description or your `README.md`:
+
+---
+
+#### 🚀 Phase 2: Complex Modeling and Model Export
+
+**Objective:** Upgrade from the baseline linear model by implementing tree-based ensembles to capture non-linear relationships, improve predictive performance, and package the final model for production deployment.
+
+##### 🌳 Models Evaluated
+
+Transitioned from a linear baseline to advanced ensemble methods capable of handling complex, conditional decision rules (e.g., combining high discount rates with specific warehouse blocks).
+
+* **Random Forest:** Trained using `scikit-learn`'s `RandomForestClassifier` with constraints on tree depth and estimators to prevent overfitting.
+* **XGBoost:** Trained using `XGBClassifier`, leveraging gradient boosting to build trees sequentially and minimize errors from previous iterations.
+
+##### 📊 Performance Comparison
+
+Models were evaluated using the isolated validation set (20%) via the ROC AUC metric.
+
+* **Baseline (Logistic Regression):** 0.7218 ROC AUC
+* **Random Forest:** 0.7224 ROC AUC
+* **XGBoost:** **0.7309 ROC AUC 🏆**
+
+XGBoost emerged as the clear champion, successfully outperforming both the linear baseline and the Random Forest model on tabular data.
+
+##### 📦 Model Export & Artifacts
+
+To prepare the champion model for Phase 3 (Core Deployment), the model and its preprocessing pipeline were serialized and exported out of the Jupyter Notebook environment.
+
+* **Serialization:** Used Python's native `pickle` library to export the components.
+* **Artifact:** Saved both the fitted `DictVectorizer` and the trained `XGBoost` model together as a tuple into a binary file (`xgboost_model.bin`).
+* **Engineering Note:** Bundling the `DictVectorizer` with the model is critical; it ensures the future Flask web service can accurately translate raw JSON text inputs (like `warehouse_block: 'D'`) into the exact numerical arrays the model expects.
+
 Phase 3: Core Deployment (Matches Module 5)
 
 Action: Take your best trained model out of the Jupyter Notebook environment.
